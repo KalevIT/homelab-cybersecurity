@@ -21,7 +21,7 @@ su Windows 11 Pro. Documentazione progressiva di un principiante assoluto.
 ## 🗺️ Fasi del Progetto
 
 - [x] Fase 0 — Setup ambiente e documentazione
-- [ ] Fase 1 — Infrastruttura base (pfSense, Kali, Metasploitable2)
+- [x] Fase 1 — Infrastruttura base (pfSense, Kali, Metasploitable2)
 - [ ] Fase 2 — Red Team base (Nmap, Metasploit)
 - [ ] Fase 3 — Blue Team base (Wazuh SIEM, Wireshark)
 - [ ] Fase 4 — Active Directory Lab
