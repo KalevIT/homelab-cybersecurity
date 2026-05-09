@@ -23,7 +23,7 @@ di rete necessari per isolare il lab dall'host.
 | Adapter 2 | VMnet1 (Host-Only) | LAN/MGMT |
 | Adapter 3 | VMnet2 (Host-Only) | OPT1/Lab |
 
-![Configurazione adattatori VM|274](screenshots/pfsense-vm-adapters.png)
+![Configurazione adattatori VM](screenshots/pfsense-vm-adapters.png)
 
 ## Installazione — Netgate Installer v1.2
 
