@@ -41,7 +41,7 @@ Al boot mostra il warning di sicurezza e le credenziali.
 ip addr show
 # eth0: 10.10.10.101/24 — IP da DHCP pfSense ✅
 
-ping 10.10.10.1 -c 4
+ping 10.10.10.254 -c 4
 # 4/4 pacchetti ricevuti, 0% loss ✅
 ```
 
@@ -81,7 +81,7 @@ nmap -sV 10.10.10.101    # enumeration servizi e versioni
 |---|---|---|---|
 | Host Windows | 192.168.233.1 | VMnet1 | Host fisico |
 | pfSense LAN | 192.168.233.254 | VMnet1 | Firewall mgmt |
-| pfSense LAB | 10.10.10.1 | VMnet2 | Gateway lab |
+| pfSense LAB | 10.10.10.254 | VMnet2 | Gateway lab |
 | Kali Linux | 10.10.10.100 | VMnet2 | Attacker |
 | Metasploitable2 | 10.10.10.101 | VMnet2 | Target |
 

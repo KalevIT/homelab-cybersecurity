@@ -10,7 +10,7 @@ Aggiunta em2 dalla pagina Interfaces > Assignments.
 ![Interface Assignments](screenshots/05-interface-assignments-em2.png)
 
 ## Step 2 — Configurazione OPT1/LAB
-Interfaccia abilitata, rinominata LAB, IP statico 10.10.10.1/24.
+Interfaccia abilitata, rinominata LAB, IP statico 10.10.10.254/24.
 
 ![Configurazione OPT1](screenshots/06-opt1-lab-configurazione.png)
 
@@ -36,15 +36,16 @@ Tutte e 3 le interfacce attive e operative.
 |---|---|---|---|---|
 | WAN | em0 | 192.168.47.128/24 (DHCP) | VMnet8 | Internet |
 | LAN | em1 | 192.168.233.254/24 | VMnet1 | Gestione |
-| LAB | em2 | 10.10.10.1/24 | VMnet2 | Rete VM lab |
+| LAB | em2 | 10.10.10.254/24 | VMnet2 | Rete VM lab |
 
 ## DHCP LAB
 - Range: 10.10.10.100 → 10.10.10.200
-- Gateway: 10.10.10.1
-- DNS: 10.10.10.1
+- Gateway: 10.10.10.254
+- DNS: 10.10.10.254
 
 ## Snapshot
-- `04-pfsense-opt1-lab-configurata`
+- `04-pfsense-opt1-lab-configurata` — LAB configurato, interfaccia em2 attivata
+- `05-pfsense-lab-gateway-254-internet-ok` — Interfaccia LAB corretta a .254, stesso fix di LAN
 
 ## Note
 Banner giallo nel DHCP: ISC DHCP sarà rimosso in versioni future

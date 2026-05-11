@@ -72,4 +72,4 @@ Modificata manualmente via System → User Manager.
 le credenziali default — non fidarsi che il wizard le abbia cambiate.
 
 ## Snapshot
-- `03-pfsense-wizard-completato`
+- `03-pfsense-wizard-completato` — Wizard completato. Password Aggiornata
