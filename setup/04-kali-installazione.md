@@ -108,6 +108,7 @@ ping google.com -c 2
 - `02-kali-prima-exploitation-bindshell`
 - `03-kali-vsftpd-exploit-metasploit`
 - `04-kali-internet-ok-post-dns-fix`
+- `05-kali-unrealircd-exploit`
 
 ## Lezioni Imparate
 - Il disco da 100GB viene mostrato come 107.4GB da VMware
