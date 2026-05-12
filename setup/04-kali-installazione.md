@@ -105,6 +105,9 @@ ping google.com -c 2
 ## Snapshot
 - `00-kali-pre-installazione` — VM creata, ISO montata
 - `01-kali-installato-desktop-ok` — Kali operativo, IP confermato
+- `02-kali-prima-exploitation-bindshell`
+- `03-kali-vsftpd-exploit-metasploit`
+- `04-kali-internet-ok-post-dns-fix`
 
 ## Lezioni Imparate
 - Il disco da 100GB viene mostrato come 107.4GB da VMware

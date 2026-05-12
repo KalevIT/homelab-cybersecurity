@@ -151,7 +151,8 @@ whoami   # blueteam
 ## Snapshot
 - `00-ubuntu-pre-installazione` — VM creata, ISO montata
 - `01-ubuntu-installato-rete-ok` — Ubuntu operativo, SSH funzionante
-- `02-ubuntu-ip-statico` — IP fisso 10.10.10.105, pronto per Wazuh
+- `02-ubuntu-internet-ok-pre-wazuh` — IP fisso 10.10.10.105, pronto per Wazuh
+- `03-ubuntu-wazuh-installato-dashboard-ok`
 
 ## Lezioni Imparate
 - Ubuntu Server 26.04 usa `ens32` invece di `eth0` — nome

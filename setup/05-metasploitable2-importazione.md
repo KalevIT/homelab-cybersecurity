@@ -88,6 +88,7 @@ nmap -sV 10.10.10.101    # enumeration servizi e versioni
 ## Snapshot
 - `00-metasploitable2-pre-avvio`
 - `01-metasploitable2-avviato-rete-ok`
+- `02-meta-rete-ok-pre-exploit-unrealircd`
 
 ## Lezioni Imparate
 - VM preconfigurate (.vmx) si importano senza installazione
