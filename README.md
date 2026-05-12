@@ -22,9 +22,19 @@ su Windows 11 Pro. Documentazione progressiva di un principiante assoluto.
 
 - [x] Fase 0 — Setup ambiente e documentazione
 - [x] Fase 1 — Infrastruttura base (pfSense, Kali, Metasploitable2)
-- [ ] Fase 2 — Red Team base (Nmap, Metasploit)
-- [ ] Fase 3 — Blue Team base (Wazuh SIEM, Wireshark)
+- [~] Fase 2 — Red Team base (Bindshell ✅, vsftpd ✅, UnrealIRCd 🔄)
+- [~] Fase 3 — Blue Team base (Wazuh SIEM ✅, Wireshark 🔄)
 - [ ] Fase 4 — Active Directory Lab
+
+## 🖥️ VM del Lab
+
+| VM | IP | VMnet | Ruolo |
+|---|---|---|---|
+| pfSense LAN | 192.168.233.254 | VMnet1 | Firewall mgmt |
+| pfSense LAB | 10.10.10.254 | VMnet2 | Gateway lab |
+| Kali Linux | 10.10.10.100 | VMnet2 | Attacker |
+| Metasploitable2 | 10.10.10.101 | VMnet2 | Target |
+| Ubuntu Server | 10.10.10.105 | VMnet2 | Blue Team / SIEM |
 
 ## 📁 Struttura Repository
 - `/setup` — Installazione e configurazione VMs

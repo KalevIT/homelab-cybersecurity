@@ -7,15 +7,15 @@ monitorare e rilevare le attività di attacco nel lab.
 
 ## Configurazione VM
 
-| Parametro | Valore |
-|---|---|
-| Nome VMware | Ubuntu-BlueTeam |
-| OS | Ubuntu Server 26.04 LTS (GNU/Linux 7.0.0 x86_64) |
-| vCPU | 2 core |
-| RAM | 4096 MB |
-| Disco | 100 GB (single file, SCSI) |
-| Rete | VMnet2 (LAB — 10.10.10.0/24) |
-| Percorso | D:\VM\MACHINES\UBUNTU-BLUETEAM\ |
+| Parametro   | Valore                                             |
+| ----------- | -------------------------------------------------- |
+| Nome VMware | Ubuntu-BlueTeam                                    |
+| OS          | Ubuntu Server 26.04 LTS (GNU/Linux 7.0.0 x86_64)   |
+| vCPU        | 2 core                                             |
+| RAM         | 6144 MB (aumentata da 4096 MB per requisiti Wazuh) |
+| Disco       | 100 GB (single file, SCSI)                         |
+| Rete        | VMnet2 (LAB — 10.10.10.0/24)                       |
+| Percorso    | D:\VM\MACHINES\UBUNTU-BLUETEAM\                    |
 
 ## Installazione — Parametri Scelti
 
