@@ -4,7 +4,7 @@
 Blue Team / SIEM / Monitoring
 
 ## Obiettivo
-Installare Wazuh 4.11 all-in-one su Ubuntu Server 10.10.10.105
+Installare Wazuh 4.14.5-1 all-in-one su Ubuntu Server 10.10.10.105
 come piattaforma SIEM per monitorare le attività di attacco nel lab.
 
 ## Ambiente
@@ -187,14 +187,14 @@ sudo systemctl status wazuh-dashboard # active (running) ✅
 
 ## Stato Post-Installazione
 
-| Voce | Stato |
-|---|---|
-| Wazuh versione | 4.11.2 ✅ |
-| Indexer | Running ✅ |
-| Manager | Running ✅ |
-| Dashboard | Running ✅ |
-| Agent registrati | 0 — da configurare |
-| Alert (24h) | 243 Medium, 115 Low (generati dal sistema stesso) |
+| Voce             | Stato                                             |
+| ---------------- | ------------------------------------------------- |
+| Wazuh versione   | 4.14.5-1 ✅                                        |
+| Indexer          | Running ✅                                         |
+| Manager          | Running ✅                                         |
+| Dashboard        | Running ✅                                         |
+| Agent registrati | 0 — da configurare                                |
+| Alert (24h)      | 243 Medium, 115 Low (generati dal sistema stesso) |
 
 ## Snapshot
 - `03-ubuntu-wazuh-installato-dashboard-ok`

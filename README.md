@@ -22,7 +22,7 @@ su Windows 11 Pro. Documentazione progressiva di un principiante assoluto.
 
 - [x] Fase 0 — Setup ambiente e documentazione
 - [x] Fase 1 — Infrastruttura base (pfSense, Kali, Metasploitable2)
-- [~] Fase 2 — Red Team base (Bindshell ✅, vsftpd ✅, UnrealIRCd 🔄)
+- [x] Fase 2 — Red Team base (Bindshell ✅, vsftpd ✅, UnrealIRCd ✅)
 - [~] Fase 3 — Blue Team base (Wazuh SIEM ✅, Wireshark 🔄)
 - [ ] Fase 4 — Active Directory Lab
 
