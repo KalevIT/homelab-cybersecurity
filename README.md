@@ -46,13 +46,13 @@ su Windows 11 Pro. Documentazione progressiva di un principiante assoluto.
 - vsftpd 2.3.4 backdoor via Metasploit (reverse shell)
 - UnrealIRCd 3.2.8.1 backdoor CVE-2010-2075 (supply chain attack)
 
-### 🔄 Fase 3 — Blue Team base
-- [x] Wazuh 4.14.5 installato su Ubuntu (indexer + manager + dashboard)
-- [x] Troubleshooting post-reboot (opensearch.hosts, Filebeat, startup ordering)
-- [x] Wazuh Agent su Kali — active, 213 eventi registrati
-- [x] Replay exploit vsftpd con Wazuh attivo — alert visibili in dashboard
-- [~] Agent su Metasploitable2 — ❌ incompatibile (Ubuntu 8.04 / glibc 2.7 / OpenSSL 0.9.8)
-- [ ] Wireshark — analisi traffico exploit
+### ✅ Fase 3 — Blue Team base
+- Wazuh 4.14.5 installato su Ubuntu (indexer + manager + dashboard)
+- Troubleshooting post-reboot (opensearch.hosts, Filebeat, startup ordering)
+- Wazuh Agent su Kali — active, 213 eventi registrati
+- Replay exploit vsftpd con Wazuh attivo — alert visibili in dashboard
+- Agent su Metasploitable2 — ❌ incompatibile (Ubuntu 8.04 / glibc 2.7 / OpenSSL 0.9.8)
+- Wireshark — analisi traffico exploit
 
 ### ⬜ Fase 4 — Active Directory Lab
 - Windows Server + Active Directory
@@ -70,9 +70,9 @@ homelab-cybersecurity/
 
 ## 📸 Snapshot VMware
 
-| VM | Ultimo Snapshot |
-|---|---|
-| pfSense | `05-pfsense-lab-gateway-254-internet-ok` |
-| Kali | `06-kali-wazuh-agent-attivo` |
-| Metasploitable2 | `02-meta-rete-ok-pre-exploit-unrealircd` |
-| Ubuntu Server | `05-ubuntu-filebeat-attivo-alert-ok` |
+| VM              | Ultimo Snapshot                          |
+| --------------- | ---------------------------------------- |
+| pfSense         | `05-pfsense-lab-gateway-254-internet-ok` |
+| Kali            | `07-kali-wireshark-cattura-vsftpd`       |
+| Metasploitable2 | `03-meta-post-unrealircd`                |
+| Ubuntu Server   | `05-ubuntu-filebeat-attivo-alert-ok`     |
