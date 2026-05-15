@@ -101,14 +101,14 @@ ping google.com -c 2
 | pfSense (LAB) | 10.10.10.254 | VMnet2 | Gateway rete lab |
 | Kali Linux | 10.10.10.100 | VMnet2 | Attacker |
 | Metasploitable2 | (da configurare) | VMnet2 | Target |
-
 ## Snapshot
-- `00-kali-pre-installazione` — VM creata, ISO montata
-- `01-kali-installato-desktop-ok` — Kali operativo, IP confermato
+- `00-kali-pre-installazione`
+- `01-kali-installato-desktop-ok`
 - `02-kali-prima-exploitation-bindshell`
 - `03-kali-vsftpd-exploit-metasploit`
 - `04-kali-internet-ok-post-dns-fix`
 - `05-kali-unrealircd-exploit`
+- `06-kali-wazuh-agent-attivo`
 
 ## Lezioni Imparate
 - Il disco da 100GB viene mostrato come 107.4GB da VMware

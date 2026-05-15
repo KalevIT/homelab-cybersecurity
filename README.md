@@ -12,19 +12,11 @@ su Windows 11 Pro. Documentazione progressiva di un principiante assoluto.
 
 ## 🌐 Architettura di Rete
 
-| VMnet   | Tipo      | Subnet          | Scopo                    |
-|---------|-----------|-----------------|--------------------------|
-| VMnet1  | Host-Only | 192.168.233.0/24| Gestione pfSense         |
-| VMnet2  | Host-Only | 10.10.10.0/24   | Rete lab isolata         |
-| VMnet8  | NAT       | (auto VMware)   | WAN pfSense → Internet   |
-
-## 🗺️ Fasi del Progetto
-
-- [x] Fase 0 — Setup ambiente e documentazione
-- [x] Fase 1 — Infrastruttura base (pfSense, Kali, Metasploitable2)
-- [x] Fase 2 — Red Team base (Bindshell ✅, vsftpd ✅, UnrealIRCd ✅)
-- [~] Fase 3 — Blue Team base (Wazuh SIEM ✅, Wireshark 🔄)
-- [ ] Fase 4 — Active Directory Lab
+| VMnet   | Tipo      | Subnet           | Scopo                  |
+|---------|-----------|------------------|------------------------|
+| VMnet1  | Host-Only | 192.168.233.0/24 | Gestione pfSense       |
+| VMnet2  | Host-Only | 10.10.10.0/24    | Rete lab isolata       |
+| VMnet8  | NAT       | (auto VMware)    | WAN pfSense → Internet |
 
 ## 🖥️ VM del Lab
 
@@ -36,7 +28,51 @@ su Windows 11 Pro. Documentazione progressiva di un principiante assoluto.
 | Metasploitable2 | 10.10.10.101 | VMnet2 | Target |
 | Ubuntu Server | 10.10.10.105 | VMnet2 | Blue Team / SIEM |
 
+## 🗺️ Fasi del Progetto
+
+### ✅ Fase 0 — Setup ambiente e documentazione
+- VMware Workstation Pro configurato
+- Rete lab isolata (VMnet2 / 10.10.10.0/24)
+- Repository GitHub con struttura documentazione
+
+### ✅ Fase 1 — Infrastruttura base
+- pfSense Firewall (WAN/LAN/LAB, DHCP, regole firewall)
+- Kali Linux 2026.1 (attacker VM)
+- Metasploitable2 (target VM)
+- Ubuntu Server 26.04 LTS (blue team VM)
+
+### ✅ Fase 2 — Red Team base
+- Bindshell porta 1524 (netcat, accesso root diretto)
+- vsftpd 2.3.4 backdoor via Metasploit (reverse shell)
+- UnrealIRCd 3.2.8.1 backdoor CVE-2010-2075 (supply chain attack)
+
+### 🔄 Fase 3 — Blue Team base
+- [x] Wazuh 4.14.5 installato su Ubuntu (indexer + manager + dashboard)
+- [x] Troubleshooting post-reboot (opensearch.hosts, Filebeat, startup ordering)
+- [x] Wazuh Agent su Kali — active, 213 eventi registrati
+- [x] Replay exploit vsftpd con Wazuh attivo — alert visibili in dashboard
+- [~] Agent su Metasploitable2 — ❌ incompatibile (Ubuntu 8.04 / glibc 2.7 / OpenSSL 0.9.8)
+- [ ] Wireshark — analisi traffico exploit
+
+### ⬜ Fase 4 — Active Directory Lab
+- Windows Server + Active Directory
+- VM Windows client
+- Attacchi AD (Pass-the-Hash, Kerberoasting, ecc.)
+
 ## 📁 Struttura Repository
-- `/setup` — Installazione e configurazione VMs
-- `/red-team` — Attività offensive documentate
-- `/blue-team` — Attività difensive e monitoring
+
+```
+homelab-cybersecurity/
+├── setup/          # Installazione e configurazione VMs
+├── red-team/       # Attività offensive documentate
+└── blue-team/      # Attività difensive e monitoring
+```
+
+## 📸 Snapshot VMware
+
+| VM | Ultimo Snapshot |
+|---|---|
+| pfSense | `05-pfsense-lab-gateway-254-internet-ok` |
+| Kali | `06-kali-wazuh-agent-attivo` |
+| Metasploitable2 | `02-meta-rete-ok-pre-exploit-unrealircd` |
+| Ubuntu Server | `05-ubuntu-filebeat-attivo-alert-ok` |

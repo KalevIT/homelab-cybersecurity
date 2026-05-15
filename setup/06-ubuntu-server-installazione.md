@@ -147,12 +147,13 @@ whoami   # blueteam
 | Kali Linux | 10.10.10.100 | VMnet2 | Attacker |
 | Metasploitable2 | 10.10.10.101 | VMnet2 | Target |
 | Ubuntu Server | 10.10.10.105 | VMnet2 | Blue Team / SIEM |
-
 ## Snapshot
-- `00-ubuntu-pre-installazione` — VM creata, ISO montata
-- `01-ubuntu-installato-rete-ok` — Ubuntu operativo, SSH funzionante
-- `02-ubuntu-internet-ok-pre-wazuh` — IP fisso 10.10.10.105, pronto per Wazuh
+- `00-ubuntu-pre-installazione`
+- `01-ubuntu-installato-rete-ok`
+- `02-ubuntu-internet-ok-pre-wazuh`
 - `03-ubuntu-wazuh-installato-dashboard-ok`
+- `04-ubuntu-wazuh-post-troubleshooting-ok`
+- `05-ubuntu-filebeat-attivo-alert-ok`
 
 ## Lezioni Imparate
 - Ubuntu Server 26.04 usa `ens32` invece di `eth0` — nome
