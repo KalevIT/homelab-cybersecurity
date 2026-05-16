@@ -1,53 +1,53 @@
-# 02 — Troubleshooting: Wazuh Non Raggiungibile Post-Reboot
+# 02 — Troubleshooting: Wazuh Unreachable After Reboot
 
-## Categoria
-Blue Team / SIEM / Troubleshooting / Configurazione
+## Category
+Blue Team / SIEM / Troubleshooting / Configuration
 
-## Obiettivo
-Diagnosticare e risolvere i problemi che rendevano la dashboard Wazuh
-irraggiungibile dopo ogni riavvio, e che impedivano la visualizzazione
-degli eventi degli agent nella dashboard.
+## Objective
+Diagnose and fix issues that made the Wazuh dashboard
+unreachable after every reboot, and prevented agent events
+from appearing in the dashboard.
 
-## Ambiente
+## Environment
 
-| Ruolo | VM | IP |
+| Role | VM | IP |
 |---|---|---|
 | SIEM | Ubuntu BlueTeam | 10.10.10.105 |
 
-## Sintomi
+## Symptoms
 
-**Sintomo 1** — Al riavvio della VM:
+**Symptom 1** — On VM reboot:
 ```
 Wazuh dashboard server is not ready yet
 ```
 
-**Sintomo 2** — Con agent Kali attivo ma nessun evento visibile:
+**Symptom 2** — With Kali agent active but no events visible:
 ```
 No results match your search criteria
 ```
 
 ---
 
-## Diagnostica Completa
+## Full Diagnostics
 
-### BLOCCO 1 — Sistema Base
+### BLOCK 1 — Base System
 
 ```bash
 uname -a && lsb_release -a && uptime && free -h && df -h && nproc
 lscpu | grep -E "Model name|CPU\(s\)|Thread"
 ```
 
-| Risorsa | Valore |
+| Resource | Value |
 |---|---|
 | OS | Ubuntu 26.04 LTS, kernel 7.0.0-15-generic |
-| RAM totale | 5.2 GB |
-| Swap | 5.8 GB (attivo) |
-| Disco libero | 71 GB / 98 GB |
-| CPU | 2 core, AMD Ryzen 9 9900X |
+| Total RAM | 5.2 GB |
+| Swap | 5.8 GB (active) |
+| Free disk | 71 GB / 98 GB |
+| CPU | 2 cores, AMD Ryzen 9 9900X |
 
-![Sistema base](screenshots/wazuh-ts-01-sistema-base.png)
+![Base system](screenshots/wazuh-ts-01-sistema-base.png)
 
-### BLOCCO 2 — Rete e Porte
+### BLOCK 2 — Network and Ports
 
 ```bash
 ip addr show && ip route show
@@ -55,40 +55,40 @@ ping 10.10.10.254 -c 2 && ping 8.8.8.8 -c 2
 sudo ss -tlnp
 ```
 
-**Nota critica — binding porta 9200:**
+**Critical note — port 9200 binding:**
 ```
 [::ffff:10.10.10.105]:9200  →  java (wazuh-indexer)
 ```
-L'indexer ascolta su `10.10.10.105:9200`, **non** su `127.0.0.1:9200`.
+Indexer listens on `10.10.10.105:9200`, **not** on `127.0.0.1:9200`.
 
-![Rete e porte](screenshots/wazuh-ts-02-rete-porte.png)
+![Network and ports](screenshots/wazuh-ts-02-rete-porte.png)
 
-### BLOCCO 3 — Stato Servizi
+### BLOCK 3 — Services Status
 
 ```bash
 sudo systemctl status wazuh-{indexer,manager,dashboard} --no-pager
 sudo systemctl is-enabled wazuh-{indexer,manager,dashboard}
 ```
 
-**Log critici del dashboard:**
+**Critical dashboard logs:**
 ```
 [ConnectionError]: connect ECONNREFUSED 127.0.0.1:9200
 ```
 
-![Status servizi](screenshots/wazuh-ts-03-status-servizi.png)
+![Services status](screenshots/wazuh-ts-03-status-servizi.png)
 ![Is-enabled](screenshots/wazuh-ts-04-is-enabled.png)
 
-### BLOCCO 4 — Netplan
+### BLOCK 4 — Netplan
 
 ```bash
 ls /etc/netplan/
-# → 00-installer-config.yaml  (non 50-cloud-init.yaml come documentato)
+# → 00-installer-config.yaml  (not 50-cloud-init.yaml as documented)
 networkctl status
 ```
 
-![Netplan e networkctl](screenshots/wazuh-ts-05-netplan-networkctl.png)
+![Netplan and networkctl](screenshots/wazuh-ts-05-netplan-networkctl.png)
 
-### BLOCCO 5 — Configurazione OpenSearch e versioni
+### BLOCK 5 — OpenSearch Configuration and Versions
 
 ```bash
 sudo cat /etc/wazuh-indexer/opensearch.yml
@@ -97,67 +97,67 @@ dpkg -l | grep wazuh
 # → wazuh-dashboard/indexer/manager: 4.14.5-1
 ```
 
-![opensearch.yml e dpkg](screenshots/wazuh-ts-06-opensearch-yml-dpkg.png)
+![opensearch.yml and dpkg](screenshots/wazuh-ts-06-opensearch-yml-dpkg.png)
 
-### BLOCCO 6 — Filebeat
+### BLOCK 6 — Filebeat
 
 ```bash
-sudo filebeat test output     # → OK (connettività funziona)
+sudo filebeat test output     # → OK (connectivity works)
 sudo systemctl status filebeat # → inactive (dead) — disabled ← BUG
 sudo cat /etc/filebeat/filebeat.yml
-# output.elasticsearch.hosts: 10.10.10.105:9200 ← configurazione corretta
+# output.elasticsearch.hosts: 10.10.10.105:9200 ← correct configuration
 ```
 
-![Filebeat diagnosi](screenshots/wazuh-ts-09-filebeat-diagnosi.png)
+![Filebeat diagnosis](screenshots/wazuh-ts-09-filebeat-diagnosi.png)
 
 ---
 
 ## Root Cause Analysis
 
-### Bug 1 — Dashboard cerca indexer su localhost (sintomo 1)
+### Bug 1 — Dashboard looks for indexer on localhost (symptom 1)
 
 ```bash
-sudo curl -sk -u admin:[PASS] https://127.0.0.1:9200   # FALLITO
-sudo curl -sk -u admin:[PASS] https://10.10.10.105:9200 # SUCCESSO
+sudo curl -sk -u admin:[PASS] https://127.0.0.1:9200   # FAILED
+sudo curl -sk -u admin:[PASS] https://10.10.10.105:9200 # SUCCESS
 
 grep "opensearch.hosts" /etc/wazuh-dashboard/opensearch_dashboards.yml
-# opensearch.hosts: https://localhost:9200  ← ERRATO
+# opensearch.hosts: https://localhost:9200  ← WRONG
 ```
 
-L'installer Wazuh su Ubuntu 26.04 (OS non supportato) configura
-il dashboard per connettersi a `localhost:9200` ma l'indexer
-ascolta su `10.10.10.105:9200`.
+Wazuh installer on Ubuntu 26.04 (unsupported OS) configures
+the dashboard to connect to `localhost:9200` but the indexer
+listens on `10.10.10.105:9200`.
 
-![Diagnosi fix finale](screenshots/wazuh-ts-08-diagnosi-fix-finale.png)
+![Final fix diagnosis](screenshots/wazuh-ts-08-diagnosi-fix-finale.png)
 
-### Bug 2 — Filebeat non avviato (sintomo 2)
+### Bug 2 — Filebeat not started (symptom 2)
 
-Filebeat è il bridge tra Manager e Indexer.
-Era installato ma `disabled` e `inactive (dead)`.
+Filebeat is the bridge between Manager and Indexer.
+It was installed but `disabled` and `inactive (dead)`.
 
 ```
-Agent Kali → Manager (riceve) → Filebeat (SPENTO) → Indexer (vuoto)
-                                                          ↓
-                                              Dashboard: "No results"
+Kali Agent → Manager (receives) → Filebeat (OFF) → Indexer (empty)
+                                                         ↓
+                                             Dashboard: "No results"
 ```
 
-### Bug 3 — Startup ordering al boot
+### Bug 3 — Startup ordering at boot
 
-I servizi si avviano in parallelo. Il dashboard partiva prima
-che l'indexer (OpenSearch/Java, 3-5 min di init) fosse pronto.
+Services start in parallel. Dashboard started before
+the indexer (OpenSearch/Java, 3-5 min init) was ready.
 
 ---
 
-## Fix Applicati
+## Fixes Applied
 
-### Fix 1 — Swap permanente
+### Fix 1 — Permanent Swap
 
 ```bash
 sudo swapon /swapfile
 echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
 ```
 
-### Fix 2 — opensearch.hosts (sintomo 1)
+### Fix 2 — opensearch.hosts (symptom 1)
 
 ```bash
 sudo sed -i \
@@ -186,7 +186,7 @@ EOF
 sudo systemctl daemon-reload
 ```
 
-### Fix 4 — Filebeat abilitato (sintomo 2)
+### Fix 4 — Filebeat enabled (symptom 2)
 
 ```bash
 sudo systemctl enable filebeat
@@ -203,35 +203,35 @@ EOF
 sudo systemctl daemon-reload
 ```
 
-![Filebeat fix e override](screenshots/wazuh-ts-10-filebeat-fix-override.png)
+![Filebeat fix and override](screenshots/wazuh-ts-10-filebeat-fix-override.png)
 
 ---
 
-## Stato Post-Fix
+## Post-Fix Status
 
-| Servizio | Stato | Enabled | Fix |
+| Service | Status | Enabled | Fix |
 |---|---|---|---|
 | wazuh-indexer | ✅ running | ✅ | — |
 | wazuh-manager | ✅ running | ✅ | Fix 3 |
 | wazuh-dashboard | ✅ running | ✅ | Fix 2 + Fix 3 |
 | filebeat | ✅ running | ✅ | Fix 4 |
 
-**Risultato:** Dashboard raggiungibile, 213 eventi da kali-attacker
-visibili nella sezione Threat Hunting. ✅
+**Result:** Dashboard reachable, 213 events from kali-attacker
+visible in Threat Hunting section. ✅
 
 ## Snapshot
 - `05-ubuntu-filebeat-attivo-alert-ok`
 
-## Lezioni Imparate
-- Wazuh ha 4 componenti critici: indexer, manager, dashboard,
-  **filebeat** — se uno è spento il sistema è parzialmente cieco
-- Filebeat è il bridge Manager → Indexer: senza di esso gli eventi
-  arrivano al Manager ma non appaiono mai nella dashboard
-- `filebeat test output` verifica solo la connettività, non se il
-  servizio è in esecuzione — controllare sempre anche `systemctl status`
-- `systemctl is-enabled` ≠ `systemctl status`: un servizio può essere
-  enabled ma dead, o running ma disabled
-- Su Ubuntu 26.04 (non supportato da Wazuh), l'installer genera
-  configurazioni parzialmente errate che richiedono fix manuali
-- Aggiungere tutti i servizi dipendenti agli override systemd evita
-  race condition al boot
+## Lessons Learned
+- Wazuh has 4 critical components: indexer, manager, dashboard,
+  **filebeat** — if one is off the system is partially blind
+- Filebeat is the Manager → Indexer bridge: without it events
+  reach the Manager but never appear in the dashboard
+- `filebeat test output` only checks connectivity, not whether the
+  service is running — always also check `systemctl status`
+- `systemctl is-enabled` ≠ `systemctl status`: a service can be
+  enabled but dead, or running but disabled
+- On Ubuntu 26.04 (not supported by Wazuh), the installer generates
+  partially wrong configurations that require manual fixes
+- Adding all dependent services to systemd overrides avoids
+  race conditions at boot

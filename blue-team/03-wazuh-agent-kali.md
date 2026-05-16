@@ -1,53 +1,53 @@
-# 03 — Wazuh Agent su Kali (Attacker VM)
+# 03 — Wazuh Agent on Kali (Attacker VM)
 
-## Categoria
+## Category
 Blue Team / SIEM / Agent / Monitoring
 
-## Obiettivo
-Installare il Wazuh Agent su Kali Linux (10.10.10.100) e registrarlo
-al Manager su Ubuntu (10.10.10.105). Da questo momento Wazuh monitora
-in tempo reale tutto quello che accade sulla macchina attacker.
+## Objective
+Install the Wazuh Agent on Kali Linux (10.10.10.100) and register it
+to the Manager on Ubuntu (10.10.10.105). From this point Wazuh monitors
+in real time everything happening on the attacker machine.
 
-## Ambiente
+## Environment
 
-| Ruolo | VM | IP |
+| Role | VM | IP |
 |---|---|---|
 | SIEM / Manager | Ubuntu BlueTeam | 10.10.10.105 |
 | Attacker / Agent | Kali Linux | 10.10.10.100 |
 
-## Architettura Post-Installazione
+## Post-Installation Architecture
 
 ```
 Kali (10.10.10.100)              Ubuntu (10.10.10.105)
 ┌──────────────────┐             ┌────────────────────────┐
 │  Wazuh Agent     │────────────▶│  Wazuh Manager         │
-│  v4.14.5         │  porta 1514 │  raccoglie log/eventi  │
+│  v4.14.5         │  port 1514  │  collects logs/events  │
 │  active/running  │             │                        │
-└──────────────────┘             │  Dashboard: alert ✅   │
+└──────────────────┘             │  Dashboard: alerts ✅  │
                                  └────────────────────────┘
 ```
 
-## Procedura
+## Procedure
 
-### Step 1 — Generazione comando dalla Dashboard
+### Step 1 — Generate command from Dashboard
 
-Dashboard Wazuh (`https://10.10.10.105`) →
-**Deploy new agent** → form compilato:
+Wazuh Dashboard (`https://10.10.10.105`) →
+**Deploy new agent** → form filled:
 
-| Campo | Valore |
+| Field | Value |
 |---|---|
 | OS | Linux — DEB amd64 |
 | Server address | 10.10.10.105 |
 | Agent name | kali-attacker |
 | Group | default |
 
-La dashboard genera automaticamente il comando di installazione.
+Dashboard automatically generates the installation command.
 
 ![Deploy new agent form](screenshots/wazuh-agent-01-deploy-form.png)
 
-### Step 2 — Installazione su Kali
+### Step 2 — Installation on Kali
 
-Comando generato ed eseguito su Kali:
+Generated command executed on Kali:
 
 ```bash
 wget https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.14.5-1_amd64.deb \
@@ -59,11 +59,11 @@ wget https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.14
 Output:
 ```
 wazuh-agent_4.14.5-1_amd64.deb  100% [====] 12,60M 5,22MB/s in 2,4s
-Selezionato il pacchetto wazuh-agent non precedentemente selezionato.
-Configurazione di wazuh-agent (4.14.5-1)...
+Selecting previously unselected package wazuh-agent.
+Setting up wazuh-agent (4.14.5-1)...
 ```
 
-### Step 3 — Avvio e abilitazione servizio
+### Step 3 — Start and enable service
 
 ```bash
 sudo systemctl daemon-reload
@@ -72,13 +72,13 @@ sudo systemctl start wazuh-agent
 sudo systemctl status wazuh-agent
 ```
 
-Output status:
+Status output:
 ```
 ● wazuh-agent.service - Wazuh agent
    Loaded: loaded (/usr/lib/systemd/system/wazuh-agent.service; enabled)
    Active: active (running) since Wed 2026-05-13 21:34:21 CEST; 6s ago
 
-Processi attivi:
+Active processes:
 ├─ wazuh-execd
 ├─ wazuh-agentd
 ├─ wazuh-syscheckd
@@ -86,54 +86,53 @@ Processi attivi:
 └─ wazuh-modulesd
 ```
 
-![Kali - installazione e status agent](screenshots/wazuh-agent-02-kali-installazione.png)
+![Kali - agent installation and status](screenshots/wazuh-agent-02-kali-installazione.png)
 
-## Verifica sulla Dashboard
+## Dashboard Verification
 
-Dopo ~30 secondi dall'avvio dell'agent, nella Dashboard:
+After ~30 seconds from agent startup, in Dashboard:
 **Endpoints → kali-attacker → active** ✅
 
-| Campo | Valore |
+| Field | Value |
 |---|---|
 | ID | 001 |
 | Status | active |
 | IP | 10.10.10.100 |
-| Versione | Wazuh v4.14.5 |
+| Version | Wazuh v4.14.5 |
 | OS | Kali GNU/Linux 2026.1 |
 | Cluster node | node01 |
 | Registration | May 13, 2026 @ 21:34:16 |
 
 ![Dashboard - agent active](screenshots/wazuh-agent-03-dashboard-active.png)
 
-## Analisi Iniziale Automatica
+## Initial Automatic Analysis
 
-Wazuh ha eseguito automaticamente una **Security Configuration
-Assessment (SCA)** su Kali usando il benchmark
-**CIS Distribution Independent Linux v2.0.0**:
+Wazuh automatically performed a **Security Configuration
+Assessment (SCA)** on Kali using the
+**CIS Distribution Independent Linux v2.0.0** benchmark:
 
-| Metrica | Valore |
+| Metric | Value |
 |---|---|
 | Passed | 83 |
 | Failed | 99 |
 | Not applicable | 8 |
 | Score | 45% |
 
-Questo è normale per una macchina attacker — Kali non è pensata
-per essere hardened ma per fare penetration testing.
-Il punteggio basso non è un problema in questo contesto di lab.
+This is normal for an attacker machine — Kali is not designed
+to be hardened but to perform penetration testing.
+Low score is not a problem in this lab context.
 
 ## Snapshot
 - `06-kali-wazuh-agent-attivo`
 
-## Lezioni Imparate
-- Il comando di installazione dell'agent include già le variabili
-  `WAZUH_MANAGER` e `WAZUH_AGENT_NAME` — non serve configurazione
-  manuale post-installazione
-- L'agent si registra automaticamente al Manager non appena il
-  servizio parte — nessuna approvazione manuale richiesta
-- La SCA viene eseguita automaticamente pochi secondi dopo la
-  registrazione — Wazuh inizia a raccogliere dati immediatamente
-- Un punteggio SCA basso su Kali è atteso: è una distro offensiva,
-  non un server production da hardening
-- Da questo momento Wazuh vede tutti i processi, connessioni
-  e modifiche ai file che avvengono su Kali in tempo reale
+## Lessons Learned
+- Agent installation command already includes `WAZUH_MANAGER`
+  and `WAZUH_AGENT_NAME` variables — no manual post-install configuration needed
+- Agent automatically registers to Manager as soon as the
+  service starts — no manual approval required
+- SCA runs automatically a few seconds after registration —
+  Wazuh starts collecting data immediately
+- Low SCA score on Kali is expected: it is an offensive distro,
+  not a production server to harden
+- From this point Wazuh sees all processes, connections
+  and file changes occurring on Kali in real time

