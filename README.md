@@ -20,13 +20,14 @@ on Windows 11 Pro. Progressive documentation by an absolute beginner.
 
 ## 🖥️ Lab VMs
 
-| VM | IP | VMnet | Role |
-|---|---|---|---|
-| pfSense LAN | 192.168.233.254 | VMnet1 | Firewall mgmt |
-| pfSense LAB | 10.10.10.254 | VMnet2 | Lab gateway |
-| Kali Linux | 10.10.10.100 | VMnet2 | Attacker |
-| Metasploitable2 | 10.10.10.101 | VMnet2 | Target |
-| Ubuntu Server | 10.10.10.105 | VMnet2 | Blue Team / SIEM |
+| VM                  | IP              | VMnet  | Role              |
+| ------------------- | --------------- | ------ | ----------------- |
+| pfSense LAN         | 192.168.233.254 | VMnet1 | Firewall mgmt     |
+| pfSense LAB         | 10.10.10.254    | VMnet2 | Lab gateway       |
+| Kali Linux          | 10.10.10.100    | VMnet2 | Attacker          |
+| Metasploitable2     | 10.10.10.101    | VMnet2 | Target            |
+| Ubuntu Server       | 10.10.10.105    | VMnet2 | Blue Team / SIEM  |
+| Windows Server 2025 | 10.10.10.10     | VMnet2 | Domain Controller |
 
 ## 🗺️ Project Phases
 
