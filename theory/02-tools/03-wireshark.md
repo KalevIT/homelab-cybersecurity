@@ -1,4 +1,4 @@
-# 07 — Wireshark: Packet Analysis Guide
+# 03 — Wireshark: Packet Analysis Guide
 
 ## What Is Wireshark
 

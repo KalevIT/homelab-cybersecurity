@@ -1,4 +1,4 @@
-# 03 — Active Directory: Fundamentals
+# 01 — Active Directory: Fundamentals
 
 ## What Is Active Directory
 
@@ -178,7 +178,7 @@ Port 389 (unencrypted) / Port 636 (LDAPS, encrypted).
 
 Example LDAP query: "Show me all users in Domain Admins group":
 ```
-ldapsearch -H ldap://10.20.20.10 -b "DC=homelab,DC=local" \
+ldapsearch -H ldap://10.10.10.10 -b "DC=homelab,DC=local" \
   "(memberOf=CN=Domain Admins,CN=Users,DC=homelab,DC=local)"
 ```
 
@@ -210,15 +210,15 @@ to the DC. This is why in our lab the DNS for VMs points to pfSense
 ```
 homelab.local Domain
 │
-├── Windows Server 2025 (DC)     10.20.20.10
+├── Windows Server 2025 (DC)     10.10.10.10
 │   ├── Active Directory Domain Services
 │   ├── DNS Server
 │   └── Kerberos KDC
 │
-├── Windows 11 (Client)          10.20.20.11
+├── Windows 11 (Client)          10.10.10.50
 │   └── Joined to homelab.local domain
 │
-└── Kali Linux (Attacker)        10.20.20.100
+└── Kali Linux (Attacker)        10.10.10.100
     ├── BloodHound
     ├── Impacket
     ├── CrackMapExec

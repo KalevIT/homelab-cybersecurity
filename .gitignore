@@ -1,4 +1,33 @@
+# VMware virtual machine files
 *.vmdk
+*.vmsd
+*.vmss
+*.vmem
+*.nvram
+*.vmxf
+*.lck/
+*-delta.vmdk
+*.ova
+*.ovf
+
+# ISO images
 *.iso
+
+# ZIP file
 *.zip
-screenshots/private/
+
+# Windows temp files
+Thumbs.db
+Desktop.ini
+*.tmp
+*.log
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+
+# Temporary screenshots folder
+STUFF/

