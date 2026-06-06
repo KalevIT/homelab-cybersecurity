@@ -64,8 +64,10 @@ on Windows 11 Pro. Progressive documentation by an absolute beginner.
 - ✅ DNS configured — client: 127.0.0.1, forwarder: 8.8.8.8 / 1.1.1.1
 - ✅ AD structure — OUs: LabUsers, LabAdmins, ServiceAccounts, Workstations
 - ✅ AD users — alice.rossi, bob.verdi, charlie.bianchi, svc-sql (SPN), svc-backup (SPN), labadmin (Domain Admin)
-- ⬜ Windows 11 CLIENT01 — domain join pending
-- ⬜ AD attacks: BloodHound, Kerberoasting, AS-REP Roasting, Pass-the-Hash, DCSync
+- ✅ Windows 11 CLIENT01 — joined homelab.local, alice.rossi login verified
+- ✅ BloodHound CE 9.1.0 — installed on Kali, port 8080, neo4j configured
+- ✅ SharpHound blocked by Defender — GPO disable pending before collection
+- ⬜ AD attacks: Kerberoasting, AS-REP Roasting, Pass-the-Hash, DCSync
 
 ## 📁 Repository Structure
 
@@ -83,22 +85,23 @@ homelab-cybersecurity/
 
 ## 📸 VMware Snapshots
 
-| VM | Latest Snapshot |
-|---|---|
-| pfSense | `05-pfsense-lab-gateway-254-internet-ok` |
-| Kali | `07-kali-wireshark-cattura-vsftpd` |
-| Metasploitable2 | `03-meta-post-unrealircd` |
-| Ubuntu Server | `05-ubuntu-filebeat-attivo-alert-ok` |
-| Windows Server 2025 | `04-dc01-dns-forwarder-8888-internet-ok` |
+| VM                  | Latest Snapshot                           |
+| ------------------- | ----------------------------------------- |
+| pfSense             | `05-pfsense-lab-gateway-254-internet-ok`  |
+| Kali                | `08-kali-bloodhound-sharphound-installed` |
+| Metasploitable2     | `03-meta-post-unrealircd`                 |
+| Ubuntu Server       | `05-ubuntu-filebeat-attivo-alert-ok`      |
+| Windows Server 2025 | `04-dc01-dns-forwarder-8888-internet-ok`  |
+| Client01            | `01-client01-joined-domain-homelab`       |
 
 ### DC01 Snapshot History
-| # | Name | Description |
-|---|------|-------------|
-| 00 | `00-winserver2025-installato-pre-ad` | Base OS, renamed DC01, static IP |
-| 01 | `01-dc01-addomain-installed-homelab-local` | AD DS installed, domain created |
-| 02 | `02-dc01-verified-dns-forwarder-ok` | AD verified, DNS client configured |
-| 03 | `03-dc01-ad-users-created` | OUs and users created |
-| 04 | `04-dc01-dns-forwarder-8888-internet-ok` | DNS forwarder fixed, internet working |
+| #   | Name                                       | Description                           |
+| --- | ------------------------------------------ | ------------------------------------- |
+| 00  | `00-winserver2025-installato-pre-ad`       | Base OS, renamed DC01, static IP      |
+| 01  | `01-dc01-addomain-installed-homelab-local` | AD DS installed, domain created       |
+| 02  | `02-dc01-verified-dns-forwarder-ok`        | AD verified, DNS client configured    |
+| 03  | `03-dc01-ad-users-created`                 | OUs and users created                 |
+| 04  | `04-dc01-dns-forwarder-8888-internet-ok`   | DNS forwarder fixed, internet working |
 
 ## ⚠️ Note on Theory Files
 
