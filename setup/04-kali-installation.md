@@ -6,15 +6,15 @@ This VM is the starting point for all Red Team activities in the lab.
 
 ## VM Configuration
 
-| Parameter   | Value                           |
-| ----------- | ------------------------------- |
-| VMware name | Kali-Attacker                   |
-| OS          | Kali Linux 2026.1 (Debian-based)|
-| vCPU        | 2 cores                         |
-| RAM         | 4096 MB                         |
-| Disk        | 100 GB (single file, SCSI)      |
-| Network     | VMnet2 (LAB — 10.10.10.0/24)   |
-| Path        | D:\VM\MACHINES\KALI-ATTACKER\   |
+| Parameter   | Value                            |
+| ----------- | -------------------------------- |
+| VMware name | Kali-Attacker                    |
+| OS          | Kali Linux 2026.1 (Debian-based) |
+| vCPU        | 2 cores                          |
+| RAM         | 8192 MB                          |
+| Disk        | 100 GB (single file, SCSI)       |
+| Network     | VMnet2 (LAB — 10.10.10.0/24)     |
+| Path        | F:\VM\DISKS\KALI-ATTACKER\       |
 
 ## Installation — Chosen Parameters
 
@@ -111,6 +111,7 @@ ping google.com -c 2
 - `05-kali-unrealircd-exploit` — After UnrealIRCd exploit
 - `06-kali-wazuh-agent-attivo` — Wazuh Agent installed and active
 - `07-kali-wireshark-cattura-vsftpd` — Wireshark capture of vsftpd exploit
+- `08-kali-bloodhound-sharphound-installed` — BloodHound CE 9.1.0 + SharpHound installed, tools verified
 
 ## Lessons Learned
 - 100 GB disk shows as 107.4 GB in VMware

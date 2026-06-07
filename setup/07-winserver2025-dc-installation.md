@@ -15,7 +15,7 @@ services for the `homelab.local` domain.
 | RAM | 4096 MB |
 | Disk | 80 GB (single file, SCSI) |
 | Network | VMnet2 (LAB — 10.10.10.0/24) |
-| Path | D:\VM\MACHINES\WINSERVER2025-DC\ |
+| Path | F:\VM\DISKS\WINSERVER2025-DC\ |
 | TPM | Not required — Server 2025 Eval does not enforce TPM |
 
 ## Installation — Chosen Parameters

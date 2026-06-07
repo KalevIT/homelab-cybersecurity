@@ -4,51 +4,63 @@ Personal cybersecurity lab built on VMware Workstation Pro
 on Windows 11 Pro. Progressive documentation by an absolute beginner.
 
 ## 🖥️ Host Specs
+
 - **OS:** Windows 11 Pro
 - **CPU:** AMD Ryzen 9 9900X (12c/24t)
 - **RAM:** 32 GB
-- **Lab storage:** 650 GB dedicated SSD
+- **Lab storage:** 650 GB dedicated SSD (`F:\VM\DISKS\`)
 - **Hypervisor:** VMware Workstation Pro (latest version)
+
 
 ## 🌐 Network Architecture
 
-| VMnet   | Type      | Subnet           | Purpose                |
-|---------|-----------|------------------|------------------------|
-| VMnet1  | Host-Only | 192.168.233.0/24 | pfSense management     |
-| VMnet2  | Host-Only | 10.10.10.0/24    | Isolated lab network   |
-| VMnet8  | NAT       | (VMware auto)    | pfSense WAN → Internet |
+| VMnet  | Type      | Subnet           | Purpose                |
+| ------ | --------- | ---------------- | ---------------------- |
+| VMnet1 | Host-Only | 192.168.233.0/24 | pfSense management     |
+| VMnet2 | Host-Only | 10.10.10.0/24    | Isolated lab network   |
+| VMnet8 | NAT       | (VMware auto)    | pfSense WAN → Internet |
+
 
 ## 🖥️ Lab VMs
 
-| VM                  | IP              | VMnet  | Role              |
-| ------------------- | --------------- | ------ | ----------------- |
-| pfSense LAN         | 192.168.233.254 | VMnet1 | Firewall mgmt     |
-| pfSense LAB         | 10.10.10.254    | VMnet2 | Lab gateway       |
-| Kali Linux          | 10.10.10.100    | VMnet2 | Attacker          |
-| Metasploitable2     | 10.10.10.101    | VMnet2 | Target            |
-| Ubuntu Server       | 10.10.10.105    | VMnet2 | Blue Team / SIEM  |
-| Windows Server 2025 | 10.10.10.10     | VMnet2 | Domain Controller |
+| VM                  | IP              | VMnet  | Role               |
+| ------------------- | --------------- | ------ | ------------------ |
+| pfSense LAN         | 192.168.233.254 | VMnet1 | Firewall mgmt      |
+| pfSense LAB         | 10.10.10.254    | VMnet2 | Lab gateway        |
+| Kali Linux          | 10.10.10.100    | VMnet2 | Attacker           |
+| Metasploitable2     | 10.10.10.101    | VMnet2 | Target             |
+| Ubuntu Server       | 10.10.10.105    | VMnet2 | Blue Team / SIEM   |
+| Windows Server 2025 | 10.10.10.10     | VMnet2 | Domain Controller  |
+| Windows 11 CLIENT01 | 10.10.10.50     | VMnet2 | Domain workstation |
+
 
 ## 🗺️ Project Phases
 
 ### ✅ Phase 0 — Environment setup and documentation
+
 - VMware Workstation Pro configured
 - VMware Virtual Network Editor: VMnet1 (Host-Only/mgmt), VMnet2 (Host-Only/lab), VMnet8 (NAT)
 - Isolated lab network (VMnet2 / 10.10.10.0/24)
 - GitHub repository with documentation structure
 
+
 ### ✅ Phase 1 — Base infrastructure
+
 - pfSense Firewall (WAN/LAN/LAB, DHCP, firewall rules)
 - Kali Linux 2026.1 (attacker VM)
 - Metasploitable2 (target VM)
 - Ubuntu Server 26.04 LTS (blue team VM)
 
+
 ### ✅ Phase 2 — Base Red Team
+
 - Bindshell port 1524 (netcat, direct root access)
 - vsftpd 2.3.4 backdoor via Metasploit (reverse shell)
 - UnrealIRCd 3.2.8.1 backdoor CVE-2010-2075 (supply chain attack)
 
+
 ### ✅ Phase 3 — Base Blue Team
+
 - Wazuh 4.14.5 installed on Ubuntu (indexer + manager + dashboard)
 - Post-reboot troubleshooting (opensearch.hosts, Filebeat, startup ordering)
 - Wazuh Agent on Kali — active, 213 events recorded
@@ -56,7 +68,9 @@ on Windows 11 Pro. Progressive documentation by an absolute beginner.
 - Agent on Metasploitable2 — ❌ incompatible (Ubuntu 8.04 / glibc 2.7 / OpenSSL 0.9.8)
 - Wireshark — exploit traffic capture and analysis (vsftpd backdoor trigger visible)
 
+
 ### 🔄 Phase 4 — Active Directory Lab
+
 - ✅ Windows Server 2025 installed — DC01 (10.10.10.10), static IP, VMnet2
 - ✅ AD DS feature installed (`Install-WindowsFeature AD-Domain-Services`)
 - ✅ Domain created — `homelab.local` / NetBIOS: `HOMELAB` / DomainMode: Windows2025
@@ -64,10 +78,11 @@ on Windows 11 Pro. Progressive documentation by an absolute beginner.
 - ✅ DNS configured — client: 127.0.0.1, forwarder: 8.8.8.8 / 1.1.1.1
 - ✅ AD structure — OUs: LabUsers, LabAdmins, ServiceAccounts, Workstations
 - ✅ AD users — alice.rossi, bob.verdi, charlie.bianchi, svc-sql (SPN), svc-backup (SPN), labadmin (Domain Admin)
-- ✅ Windows 11 CLIENT01 — joined homelab.local, alice.rossi login verified
-- ✅ BloodHound CE 9.1.0 — installed on Kali, port 8080, neo4j configured
-- ✅ SharpHound blocked by Defender — GPO disable pending before collection
+- ✅ Windows 11 CLIENT01 (10.10.10.50) — joined to `homelab.local`, alice.rossi login verified
+- ✅ BloodHound CE 9.1.0 + SharpHound installed on Kali — tools verified and ready
+- ⬜ BloodHound data collection from CLIENT01 — pending (previous attempt incomplete, see `red-team/05-bloodhound-ad-enumeration.md`)
 - ⬜ AD attacks: Kerberoasting, AS-REP Roasting, Pass-the-Hash, DCSync
+
 
 ## 📁 Repository Structure
 
@@ -77,10 +92,11 @@ homelab-cybersecurity/
 ├── red-team/       # Documented offensive activities
 ├── blue-team/      # Defensive activities and monitoring
 └── theory/         # Concepts and theory behind every tool and attack
-    ├── 01-networking/      # OSI model, TCP/IP, protocols
-    ├── 02-tools/           # nmap, Metasploit, Wireshark
-    ├── 03-exploitation/    # Shell types, payloads
-    └── 04-active-directory/ # AD fundamentals, Kerberos, attacks
+    ├── 01-networking/       # OSI model, TCP/IP, protocols
+    ├── 02-tools/            # nmap, Metasploit, Wireshark
+    ├── 03-exploitation/     # Shell types, payloads
+    ├── 04-active-directory/ # AD fundamentals, Kerberos, attacks
+    └── 05-credentials/      # Password hashing, NTLM, Pass-the-Hash
 ```
 
 ## 📸 VMware Snapshots
@@ -92,9 +108,11 @@ homelab-cybersecurity/
 | Metasploitable2     | `03-meta-post-unrealircd`                 |
 | Ubuntu Server       | `05-ubuntu-filebeat-attivo-alert-ok`      |
 | Windows Server 2025 | `04-dc01-dns-forwarder-8888-internet-ok`  |
-| Client01            | `01-client01-joined-domain-homelab`       |
+| CLIENT01            | `01-client01-joined-domain-homelab`       |
+
 
 ### DC01 Snapshot History
+
 | #   | Name                                       | Description                           |
 | --- | ------------------------------------------ | ------------------------------------- |
 | 00  | `00-winserver2025-installato-pre-ad`       | Base OS, renamed DC01, static IP      |
@@ -102,6 +120,15 @@ homelab-cybersecurity/
 | 02  | `02-dc01-verified-dns-forwarder-ok`        | AD verified, DNS client configured    |
 | 03  | `03-dc01-ad-users-created`                 | OUs and users created                 |
 | 04  | `04-dc01-dns-forwarder-8888-internet-ok`   | DNS forwarder fixed, internet working |
+
+
+### CLIENT01 Snapshot History
+
+| #   | Name                                | Description                               |
+| --- | ----------------------------------- | ----------------------------------------- |
+| 00  | `00-client01-installed-pre-config`  | OS installed, localadmin account          |
+| 01  | `01-client01-joined-domain-homelab` | Domain joined, alice.rossi login verified |
+
 
 ## ⚠️ Note on Theory Files
 

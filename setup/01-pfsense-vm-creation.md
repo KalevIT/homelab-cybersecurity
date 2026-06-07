@@ -13,7 +13,7 @@ adapters needed to isolate the lab from the host.
 | vCPU | 1 core |
 | RAM | 1024 MB |
 | Disk | 20 GB (single file) |
-| Path | D:\VM\MACHINES\PFSENSE\ |
+| Path | F:\VM\DISKS\PFSENSE-FIREWALL\ |
 
 ## Network Adapters
 

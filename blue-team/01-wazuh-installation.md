@@ -30,11 +30,11 @@ df -h /    # disk space
 nproc      # CPU cores
 ```
 
-| Resource | Detected value | Minimum required |
-|---|---|---|
-| RAM | 3.3 GB (VM total 4 GB) | 4 GB |
-| Free disk | 87 GB | 50 GB ✅ |
-| CPU | 2 cores | 2 cores ✅ |
+| Resource  | Detected value         | Minimum required |
+| --------- | ---------------------- | ---------------- |
+| RAM       | 3.3 GB (VM total 4 GB) | 4 GB             |
+| Free disk | 87 GB                  | 50 GB ✅          |
+| CPU       | 2 cores                | 2 cores ✅        |
 
 **Problem:** Total available RAM (3.3 GB) was below the threshold
 required by Wazuh (4 GB). Fixed by adding 2 GB of swap and

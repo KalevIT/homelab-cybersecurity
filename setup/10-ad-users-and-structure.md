@@ -165,8 +165,8 @@ Taken: after all OUs and users verified
 ```
 
 ## Next Steps
-- [ ] Install CLIENT01 (Windows 11) — IP: 10.10.10.50
-- [ ] Join CLIENT01 to homelab.local
-- [ ] Log in as alice.rossi on CLIENT01
-- [ ] Run BloodHound from Kali to enumerate AD
+- [x] Install CLIENT01 (Windows 11) — IP: 10.10.10.50
+- [x] Join CLIENT01 to homelab.local
+- [x] Log in as alice.rossi on CLIENT01
+- [ ] BloodHound data collection from CLIENT01 — pending (see `red-team/05-bloodhound-ad-enumeration.md`)
 - [ ] Kerberoasting: GetUserSPNs.py against svc-sql and svc-backup

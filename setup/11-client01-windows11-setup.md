@@ -195,25 +195,25 @@ nltest /sc_verify:homelab.local
 
 ## Full Network Map — Post CLIENT01
 
-| VM | IP | VMnet | Role |
-|----|----|----|------|
-| Host Windows | 192.168.233.1 | VMnet1 | Physical host |
-| pfSense LAN | 192.168.233.254 | VMnet1 | Firewall mgmt |
-| pfSense LAB | 10.10.10.254 | VMnet2 | Lab gateway |
-| Kali Linux | 10.10.10.100 | VMnet2 | Attacker |
-| Metasploitable2 | 10.10.10.101 | VMnet2 | Target |
-| Ubuntu Server | 10.10.10.105 | VMnet2 | Blue Team / SIEM |
-| Windows Server 2025 | 10.10.10.10 | VMnet2 | Domain Controller |
-| **Windows 11** | **10.10.10.50** | **VMnet2** | **Domain Client** |
+| VM                  | IP              | VMnet  | Role              |
+| ------------------- | --------------- | ------ | ----------------- |
+| Host Windows        | 192.168.233.1   | VMnet1 | Physical host     |
+| pfSense LAN         | 192.168.233.254 | VMnet1 | Firewall mgmt     |
+| pfSense LAB         | 10.10.10.254    | VMnet2 | Lab gateway       |
+| Kali Linux          | 10.10.10.100    | VMnet2 | Attacker          |
+| Metasploitable2     | 10.10.10.101    | VMnet2 | Target            |
+| Ubuntu Server       | 10.10.10.105    | VMnet2 | Blue Team / SIEM  |
+| Windows Server 2025 | 10.10.10.10     | VMnet2 | Domain Controller |
+| Windows 11          | 10.10.10.50     | VMnet2 | Domain Client     |
 
 ---
 
 ## Snapshots
 
-| # | Name | State |
-|---|------|-------|
-| 00 | `00-client01-installed-pre-config` | OS installed, localadmin account |
-| **01** ⭐ | **`01-client01-joined-domain-homelab`** | **Domain joined, alice.rossi verified** |
+| #   | Name                                | State                               |
+| --- | ----------------------------------- | ----------------------------------- |
+| 00  | `00-client01-installed-pre-config`  | OS installed, localadmin account    |
+| 01  | `01-client01-joined-domain-homelab` | Domain joined, alice.rossi verified |
 
 ---
 

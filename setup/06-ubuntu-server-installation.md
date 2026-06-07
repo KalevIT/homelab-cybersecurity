@@ -7,15 +7,15 @@ and detect attack activities in the lab.
 
 ## VM Configuration
 
-| Parameter   | Value                                              |
-| ----------- | -------------------------------------------------- |
-| VMware name | Ubuntu-BlueTeam                                    |
-| OS          | Ubuntu Server 26.04 LTS (GNU/Linux 7.0.0 x86_64)  |
-| vCPU        | 2 cores                                            |
-| RAM         | 6144 MB (increased from 4096 MB for Wazuh requirements) |
-| Disk        | 100 GB (single file, SCSI)                         |
-| Network     | VMnet2 (LAB — 10.10.10.0/24)                      |
-| Path        | D:\VM\MACHINES\UBUNTU-BLUETEAM\                    |
+| Parameter   | Value                                            |
+| ----------- | ------------------------------------------------ |
+| VMware name | Ubuntu-BlueTeam                                  |
+| OS          | Ubuntu Server 26.04 LTS (GNU/Linux 7.0.0 x86_64) |
+| vCPU        | 2 cores                                          |
+| RAM         | 6144 MB                                          |
+| Disk        | 100 GB (single file, SCSI)                       |
+| Network     | VMnet2 (LAB — 10.10.10.0/24)                     |
+| Path        | D:\VM\MACHINES\UBUNTU-BLUETEAM\                  |
 
 ## Installation — Chosen Parameters
 

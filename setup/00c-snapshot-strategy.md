@@ -98,53 +98,54 @@ Am I about to change something significant?
 ## Current Snapshot Inventory
 
 ### pfSense (6 snapshots)
-| # | Name | State at snapshot |
-|---|------|------------------|
-| 00 | `00-pre-installazione` | VM created, not started |
-| 01 | `01-pfsense-installato-e-avviato` | pfSense running, pre-WebGUI |
-| 02 | `02-pfsense-lan-ip-corretto` | LAN fixed to .254 |
-| 03 | `03-pfsense-wizard-completato` | WebGUI wizard done, password set |
-| 04 | `04-pfsense-opt1-lab-configurata` | OPT1/LAB interface configured |
-| **05** ⭐ | **`05-pfsense-lab-gateway-254-internet-ok`** | **CURRENT — lab routing working** |
+| #   | Name                                     | State at snapshot                |
+| --- | ---------------------------------------- | -------------------------------- |
+| 00  | `00-pre-installazione`                   | VM created, not started          |
+| 01  | `01-pfsense-installato-e-avviato`        | pfSense running, pre-WebGUI      |
+| 02  | `02-pfsense-lan-ip-corretto`             | LAN fixed to .254                |
+| 03  | `03-pfsense-wizard-completato`           | WebGUI wizard done, password set |
+| 04  | `04-pfsense-opt1-lab-configurata`        | OPT1/LAB interface configured    |
+| 05  | `05-pfsense-lab-gateway-254-internet-ok` | CURRENT — lab routing working    |
 
 ### Kali Linux (8 snapshots)
-| # | Name | State at snapshot |
-|---|------|------------------|
-| 00 | `00-kali-pre-installazione` | VM created, ISO mounted |
-| 01 | `01-kali-installato-desktop-ok` | Kali installed, IP confirmed |
-| 02 | `02-kali-prima-exploitation-bindshell` | Pre-exploitation baseline |
-| 03 | `03-kali-vsftpd-exploit-metasploit` | After vsftpd exploit |
-| 04 | `04-kali-internet-ok-post-dns-fix` | Internet verified |
-| 05 | `05-kali-unrealircd-exploit` | After UnrealIRCd exploit |
-| 06 | `06-kali-wazuh-agent-attivo` | Wazuh Agent installed and active |
-| **07** ⭐ | **`07-kali-wireshark-cattura-vsftpd`** | **CURRENT — Wireshark capture done** |
+| #   | Name                                      | State at snapshot                                              |
+| --- | ----------------------------------------- | -------------------------------------------------------------- |
+| 00  | `00-kali-pre-installazione`               | VM created, ISO mounted                                        |
+| 01  | `01-kali-installato-desktop-ok`           | Kali installed, IP confirmed                                   |
+| 02  | `02-kali-prima-exploitation-bindshell`    | Pre-exploitation baseline                                      |
+| 03  | `03-kali-vsftpd-exploit-metasploit`       | After vsftpd exploit                                           |
+| 04  | `04-kali-internet-ok-post-dns-fix`        | Internet verified                                              |
+| 05  | `05-kali-unrealircd-exploit`              | After UnrealIRCd exploit                                       |
+| 06  | `06-kali-wazuh-agent-attivo`              | Wazuh Agent installed and active                               |
+| 07  | `07-kali-wireshark-cattura-vsftpd`        | Wireshark capture of vsftpd exploit                            |
+| 08  | `08-kali-bloodhound-sharphound-installed` | CURRENT — BloodHound CE + SharpHound installed, tools verified |
 
 ### Metasploitable2 (4 snapshots)
-| # | Name | State at snapshot |
-|---|------|------------------|
-| 00 | `00-metasploitable2-pre-avvio` | VM imported, not started |
-| 01 | `01-metasploitable2-avviato-rete-ok` | Running, network verified |
-| 02 | `02-meta-rete-ok-pre-exploit-unrealircd` | Pre-UnrealIRCd baseline |
-| **03** ⭐ | **`03-meta-post-unrealircd`** | **CURRENT — post all Phase 2 exploits** |
+| #   | Name                                     | State at snapshot                   |
+| --- | ---------------------------------------- | ----------------------------------- |
+| 00  | `00-metasploitable2-pre-avvio`           | VM imported, not started            |
+| 01  | `01-metasploitable2-avviato-rete-ok`     | Running, network verified           |
+| 02  | `02-meta-rete-ok-pre-exploit-unrealircd` | Pre-UnrealIRCd baseline             |
+| 03  | `03-meta-post-unrealircd`                | CURRENT — post all Phase 2 exploits |
 
 ### Ubuntu Server / Wazuh (6 snapshots)
-| # | Name | State at snapshot |
-|---|------|------------------|
-| 00 | `00-ubuntu-pre-installazione` | VM created |
-| 01 | `01-ubuntu-installato-rete-ok` | Ubuntu installed, SSH working |
-| 02 | `02-ubuntu-internet-ok-pre-wazuh` | Static IP, ready for Wazuh |
-| 03 | `03-ubuntu-wazuh-installato-dashboard-ok` | Wazuh installed |
-| 04 | `04-ubuntu-wazuh-post-troubleshooting-ok` | All Wazuh bugs fixed |
-| **05** ⭐ | **`05-ubuntu-filebeat-attivo-alert-ok`** | **CURRENT — Filebeat active, 213 events** |
+| #   | Name                                      | State at snapshot                     |
+| --- | ----------------------------------------- | ------------------------------------- |
+| 00  | `00-ubuntu-pre-installazione`             | VM created                            |
+| 01  | `01-ubuntu-installato-rete-ok`            | Ubuntu installed, SSH working         |
+| 02  | `02-ubuntu-internet-ok-pre-wazuh`         | Static IP, ready for Wazuh            |
+| 03  | `03-ubuntu-wazuh-installato-dashboard-ok` | Wazuh installed                       |
+| 04  | `04-ubuntu-wazuh-post-troubleshooting-ok` | All Wazuh bugs fixed                  |
+| 05  | `05-ubuntu-filebeat-attivo-alert-ok`      | CURRENT — Filebeat active, 213 events |
 
 ### Windows Server 2025 / DC01 (5 snapshots)
-| # | Name | State at snapshot |
-|---|------|------------------|
-| 00 | `00-winserver2025-installato-pre-ad` | Base OS, static IP, pre-AD |
-| 01 | `01-dc01-addomain-installed-homelab-local` | Domain created, DC promoted |
-| 02 | `02-dc01-verified-dns-forwarder-ok` | AD verified, DNS client set |
-| 03 | `03-dc01-ad-users-created` | OUs and users created |
-| **04** ⭐ | **`04-dc01-dns-forwarder-8888-internet-ok`** | **CURRENT — DNS forwarder working** |
+| #   | Name                                       | State at snapshot               |
+| --- | ------------------------------------------ | ------------------------------- |
+| 00  | `00-winserver2025-installato-pre-ad`       | Base OS, static IP, pre-AD      |
+| 01  | `01-dc01-addomain-installed-homelab-local` | Domain created, DC promoted     |
+| 02  | `02-dc01-verified-dns-forwarder-ok`        | AD verified, DNS client set     |
+| 03  | `03-dc01-ad-users-created`                 | OUs and users created           |
+| 04  | `04-dc01-dns-forwarder-8888-internet-ok`   | CURRENT — DNS forwarder working |
 
 ---
 
@@ -216,21 +217,25 @@ Note: "Delete" removes just that point but preserves the state
 
 ---
 
-## Planned Snapshots for Phase 4 (CLIENT01 + AD Attacks)
+## Planned Snapshots for Phase 4 — AD Attacks
+
+### Windows 11 / CLIENT01 — current and upcoming
+
+| #   | Name                                     | State                                               |
+| --- | ---------------------------------------- | --------------------------------------------------- |
+| 00  | `00-client01-installed-pre-config`       | OS installed, localadmin account                    |
+| 01  | `01-client01-joined-domain-homelab`      | CURRENT — domain joined, alice.rossi verified       |
+| 02  | `02-client01-sharphound-bloodhound-ok` ⬜ | To take after successful BloodHound data collection |
+
+### Kali — next snapshots
 
 ```
-CLIENT01 (Windows 11) — planned snapshots:
-  00-client01-pre-installation         ← VM created, before OS install
-  01-client01-windows11-installed       ← OS installed, static IP
-  02-client01-joined-domain-homelab     ← Domain joined, verified
-  03-client01-pre-attacks               ← Clean baseline before attacks start
+09-kali-bloodhound-data-imported    ← after BloodHound CE shows domain graph (pending)
+```
 
-DC01 — planned additional snapshots:
-  05-dc01-client01-joined-verified      ← After CLIENT01 joins domain
-  06-dc01-pre-bloodhound               ← Clean state before any attack
-  07-dc01-post-kerberoasting           ← After Kerberoasting documented
+### DC01 — planned additional snapshots
 
-Kali — planned additional snapshots:
-  08-kali-bloodhound-installed          ← BloodHound + Neo4j ready
-  09-kali-impacket-verified             ← Impacket tools tested
+```
+05-dc01-pre-ad-attacks              ← clean baseline before attacks start
+06-dc01-post-kerberoasting          ← after Kerberoasting documented
 ```

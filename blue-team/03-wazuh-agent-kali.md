@@ -24,7 +24,7 @@ Kali (10.10.10.100)              Ubuntu (10.10.10.105)
 │  v4.14.5         │  port 1514  │  collects logs/events  │
 │  active/running  │             │                        │
 └──────────────────┘             │  Dashboard: alerts ✅  │
-                                 └────────────────────────┘
+                                └────────────────────────┘
 ```
 
 ## Procedure

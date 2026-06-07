@@ -21,7 +21,8 @@ Host: Windows 11 Pro
         │   ├── METASPLOITABLE2\
         │   ├── PFSENSE-FIREWALL\
         │   ├── UBUNTU-BLUETEAM\
-        │   └── WINSERVER2025-DC\
+        │   ├── WINSERVER2025-DC\
+	    │   └── CLIENT01\
         │
         └── GITHUB.REPO\             ← Documentation repository
             └── homelab-cybersecurity\
@@ -214,6 +215,7 @@ and make recreation much faster.
 | Metasploitable2 | ~10 min (import .vmx) | Very low |
 | Ubuntu + Wazuh | ~3 hours | Medium (Wazuh setup) |
 | Windows Server + AD | ~2 hours | Medium |
+| CLIENT01 + domain join | ~1 hour | Low-Medium |
 
 Total from zero: ~7-8 hours with documentation. Without docs: 2-3x longer.
 
@@ -221,13 +223,15 @@ Total from zero: ~7-8 hours with documentation. Without docs: 2-3x longer.
 
 ## Current File Inventory
 
-| VM | VMX Location | Disk Size | Last Snapshot |
-|----|-------------|-----------|---------------|
+| VM | VMX Location | Disk Size | Latest Snapshot |
+|----|-------------|-----------|-----------------|
 | pfSense | `F:\VM\DISKS\PFSENSE-FIREWALL\` | ~1 GB | `05-pfsense-lab-gateway-254-internet-ok` |
-| Kali | `F:\VM\DISKS\KALI-ATTACKER\` | ~12.4 GB | `07-kali-wireshark-cattura-vsftpd` |
+| Kali | `F:\VM\DISKS\KALI-ATTACKER\` | ~12.4 GB | `08-kali-bloodhound-sharphound-installed` |
 | Metasploitable2 | `F:\VM\DISKS\METASPLOITABLE2\` | ~892 MB | `03-meta-post-unrealircd` |
 | Ubuntu/Wazuh | `F:\VM\DISKS\UBUNTU-BLUETEAM\` | ~10.5 GB | `05-ubuntu-filebeat-attivo-alert-ok` |
 | WinServer 2025 | `F:\VM\DISKS\WINSERVER2025-DC\` | ~15 GB | `04-dc01-dns-forwarder-8888-internet-ok` |
+        └── CLIENT01\
+| CLIENT01 | `F:\VM\DISKS\CLIENT01\` | ~15 GB | `01-client01-joined-domain-homelab` |
 
 ---
 
